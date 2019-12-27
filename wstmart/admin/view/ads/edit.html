@@ -1,0 +1,151 @@
+{extend name="base" /}
+{block name="css"}
+<style>
+#preview img{max-width: 600px;max-height:150px;}
+</style>
+<link rel="stylesheet" type="text/css" href="__STATIC__/plugins/webuploader/webuploader.css?v={$v}" />
+{/block}
+{block name="js"}
+<script type='text/javascript' src='__STATIC__/plugins/webuploader/webuploader.js?v={$v}'></script>
+<script src="__ADMIN__/ads/admgrs.js?v={$v}" type="text/javascript"></script>
+{/block}
+{block name="main"}
+<form id="adsForm">
+<table class='wst-form wst-box-top'>
+  <tr>
+      <th width='150'>位置类型<font color='red'>*</font>：</th>
+          <td>
+            <select id="positionType" name="positionType" class='ipt' maxLength='20' onchange='javascript:addPosition(this.value);'>
+              <option value=''>请选择</option>
+              {volist name=":WSTDatas('ADS_TYPE')" id='vo'}
+              <option {if $data['positionType'] == $vo['dataVal']}selected{/if} value="{$vo['dataVal']}">{$vo['dataName']}</option>
+              {/volist}
+            </select>
+          </td>
+       </tr>
+       <tr>
+          <th>广告位置<font color='red'>*</font>：</th>
+          <td>
+            <select id="adPositionId" name="adPositionId" class='ipt' maxLength='20' onchange='javascript:getPhotoSize(this.value);'>
+              <option value="">-请选择-</option>
+            </select>
+          </td>
+       </tr>
+       <tr>
+          <th>广告标题<font color='red'>*</font>：</th>
+          <td><input type='text' id='adName' name="adName" value='{$data['adName']}' class='ipt' maxLength='20'/></td>
+       </tr>
+    <tr>
+        <th>图片比例<font color='red'>*</font>：</th>
+        <td colspan='3'>
+            <label style='width:70px;'>
+                <input type='radio' name='proportion' class='ipt' value='0' {if $data['proportion']==0}checked{/if}>全屏
+            </label>
+            <label>
+                <input type='radio' name='proportion' class='ipt' value='1' {if $data['proportion']==1}checked{/if}>3/4屏
+            </label>
+        </td>
+    </tr>
+       <tr>
+          <th>广告图片<font color='red'>*</font>：</th>
+          <td><div id='adFilePicker'>上传广告图</div><span id='uploadMsg'></span>
+              <div>
+                图片大小:<span id="img_size">300x300</span>(px)，格式为 gif, jpg, jpeg, png
+              </div>
+          </td>
+
+       </tr>
+       <tr>
+          <th>预览图<font color='red'>  </font>：</th>
+          <td>
+            <div id="preview" style="min-height:30px;">
+              {if ($data['adFile']!='')}
+              <img src="__ROOT__/{$data['adFile']}">
+              {/if}
+            </div>
+            <input type="hidden" name="adFile" id="adFile" class="ipt" value="{$data['adFile']}" />
+          </td>
+       </tr>
+        <tr>
+            <th>广告网址<font color='red'>*</font>：</th>
+            <td colspan='3'>
+                <label style='width:70px;'>
+                    <input type='radio' name='accessType' class='ipt' value='0' onclick='javascript:hideModule(0);' {if $data['accessType']==0}checked{/if}>h5链接
+                </label>
+                <label>
+                    <input type='radio' name='accessType' class='ipt' value='1' onclick='javascript:hideModule(1);' {if $data['accessType']==1}checked{/if}>应用内页面
+                </label>
+            </td>
+        </tr>
+       <tr id="accessAddress">
+          <th>访问地址<font color='red'>  </font>：</th>
+          <td>
+            <input type="text" id="adURL" class="ipt" maxLength="200" value='{$data['adURL']}' />
+          </td>
+       </tr>
+    <tr id="accessModule">
+        <th width='150'>访问模块<font color='red'>*</font>：</th>
+        <td>
+            <select id="accessModuleType" name="accessModuleType" class='ipt' maxLength='20'>
+                <option value=''>请选择</option>
+                {volist name=":config('web.accessModuleType')" id='vo' key="k"}
+                <option {if $data['accessModuleType'] == $k}selected{/if} value="{$k}">{$vo}</option>
+                {/volist}
+            </select>
+            <input type="text" style="margin:0px;vertical-align:baseline;" id="moduleId" name="moduleId" class="laydate-icon ipt" maxLength="5" value='{$data['moduleId']}'  />
+        </td>
+    </tr>
+       <tr>
+          <th >广告开始时间<font color='red'>*</font>：</th>
+          <td>
+            <input type="text" style="margin:0px;vertical-align:baseline;" id="adStartDate" name="adStartDate" class="laydate-icon ipt" maxLength="20" value='{$data['adStartDate']}'  />
+          </td>
+       </tr>
+       <tr>
+          <th>广告结束时间<font color='red'>*</font>：</th>
+          <td>
+            <input type="text" style="margin:0px;vertical-align:baseline;" id="adEndDate" name="adEndDate" class="laydate-icon ipt" maxLength="20" value='{$data['adEndDate']}' />
+          </td>
+       </tr>
+       <tr>
+          <th>广告排序号：</th>
+          <td>
+            <input type="text" id="adSort" class="ipt" maxLength="20"  value='{$data['adSort']}' />
+          </td>
+       </tr>
+        <tr>
+            <th>生效版本：</th>
+            <td>
+                <input type="text" id="version" class="ipt" maxLength="20"  value='{$data['version']}' />
+            </td>
+        </tr>
+        <tr>
+            <th>是否上线：</th>
+            <td>
+                <input type="checkbox" {if $data['isShow']==1}checked{/if} value='1' class="ipt" id="isShow" name="isShow" lay-skin="switch" lay-filter="isShow" lay-text="是|否">
+            </td>
+        </tr>
+  <tr>
+     <td colspan='2' align='center' class='wst-bottombar'>
+       <input type="hidden" name="id" id="adId" class="ipt" value="{$data['adId']+0}" />
+       <button type="button" class="btn btn-primary btn-mright" onclick="javascript:save(1)"><i class="fa fa-check"></i>提交</button>
+       {if $data['adId']==0}
+       <button type="button" class="btn btn-primary btn-mright" onclick="javascript:continueAdd(1)"><i class="fa fa-check"></i>继续新增</button> 
+       {/if} 
+        <button type="button" class="btn" onclick="javascript:history.go(-1)"><i class="fa fa-angle-double-left"></i>返回</button>
+     </td>
+  </tr>
+</table>
+</form>
+<script>
+$(function(){
+    $("#accessModule").hide();
+    $("#accessAddress").show();
+editInit();
+//初始化位置类型
+addPosition("{$data['positionType']}","{$data['adPositionId']}");
+});
+
+</script>
+{/block}
+

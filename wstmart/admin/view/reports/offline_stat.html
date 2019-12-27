@@ -1,0 +1,26 @@
+{extend name="base" /}
+{block name="css"}
+<link rel="stylesheet" type="text/css" href="__ADMIN__/js/mmgrid/mmGrid.css?v={$v}" />
+{/block}
+{block name="js"}
+<script src="__ADMIN__/js/mmgrid/mmGrid.js?v={$v}" type="text/javascript"></script>
+<script src="__ADMIN__/reports/offline_stat.js" type="text/javascript"></script>
+{/block}
+{block name="main"}
+<div class="wst-toolbar">
+    <lable>渠道：</lable><select name="channel" id="channel" class="ipt">
+        <option value="666667">西安</option>
+    </select>
+    <input type="text" id="startDate" name="startDate" class="laydate-icon ipt" maxLength="20" value='{$startDate}' placeholder='开始日期'/>
+    至
+    <input type="text" id="endDate" name="endDate" class="laydate-icon ipt" maxLength="20" value='{$endDate}' placeholder='结束日期'/>
+    <button class="btn btn-primary" onclick='javascript:loadGrid(0)'><i class='fa fa-search'></i>查询</button>
+</div>
+<div class='wst-grid'>
+    <div id="mmg" class="mmg"></div>
+    <div id="pg" style="text-align: right;"></div>
+</div>
+<script>
+    $(function(){initSaleGrid();})
+</script>
+{/block}

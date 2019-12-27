@@ -1,0 +1,168 @@
+{extend name="base" /}
+{block name="css"}
+<link rel="stylesheet" type="text/css" href="__STATIC__/plugins/webuploader/webuploader.css?v={$v}" />
+<link href="__STATIC__/plugins/validator/jquery.validator.css?v={$v}" rel="stylesheet">
+<link href="__ROOT__/addons/coupon/view/home/shops/shops.css?v={$v}" rel="stylesheet">
+{/block}
+{block name="js"}
+<script type='text/javascript' src='__STATIC__/plugins/webuploader/webuploader.js?v={$v}'></script>
+<script src="__ADMIN__/coupons/coupons.js" type="text/javascript"></script>
+<script src="__ADMIN__/coupons/laytpl.js" type="text/javascript"></script>
+<script src="__STATIC__/plugins/layer/laydate.js"></script>
+<style>
+    .searchGoods{height: 30px;
+        line-height: 30px;
+        margin-right: 10px;
+        margin-top: 16px;
+        padding: 7px 20px;
+        color: #ffffff;
+        background: #E45050;
+        border-radius: 3px;
+        cursor: pointer;}
+</style>
+{/block}
+{block name="main"}
+<div class="l-loading" style="display: block" id="wst-loading"></div>
+<form id="couponForm" autocomplete="off">
+    <table class='wst-form wst-box-top'>
+        <tr>
+            <th>优惠券名称<font color='red'>*</font>：</th>
+            <td>
+                <input type="text" id="name" name="name" class="ipt" value="{$data['name']}" maxLength='20'/>
+            </td>
+        </tr>
+        <tr>
+            <th>店铺名称<font color='red'>*</font>：</th>
+            <td>
+                <select name="shopId" id="shopId" class="ipt" maxLength='20'>
+                    <option value="">-请选择-</option>
+                    {volist name=":WSTShopName()" id="vo"}
+                    <option value="{$vo['shopId']}" {if $vo['shopId']}selected{/if}>{$vo['shopName']}</option>
+                    {/volist}
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th>面值<font color='red'>*</font>：</th>
+            <td>
+                <input type="text" id="couponValue" name="couponValue" class="ipt" value="{$data['couponValue']}" maxLength='20'/>
+            </td>
+        </tr>
+        <tr>
+            <th>使用條件<font color='red'>*</font>：</th>
+            <td colspan='3'>
+                <label style='width:70px;'>
+                    <input type='radio' name='useCondition' class='ipt' value='0' {if $data['useCondition']==0}checked{/if} onclick='checkUseCondition(0)'>无条件
+                </label>
+                <label>
+                    <input type='radio' name='useCondition' class='ipt' value='1' {if $data['useCondition']==1}checked{/if} onclick='checkUseCondition(1)'>满<input type='text' id='useMoney' class='ipt' style='width:60px' value='{$data["useMoney"]}' {if $data['useCondition']==0}disabled{/if}/>元使用
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <th>发放对象<font color='red'>*</font>：</th>
+            <td colspan='3'>
+                <label style='width:70px;'>
+                    <input type='radio' name='grantObjects' class='ipt' value='0' {if $data['grantObjects']==0}checked{/if}>全部用户
+                </label>
+                <label>
+                    <input type='radio' name='grantObjects' class='ipt' value='1' {if $data['grantObjects']==1}checked{/if}>指定用户
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <th width='120'>适用范围<font color='red'>*</font>：</th>
+            <td colspan='3'>
+                <label style='width:70px;'>
+                    <input type='radio' name='useObjects' class='ipt' value='0' {if $data['useObjects']==0}checked{/if} onclick='javascript:WST.showHide(0,"#goodsBox_1,#goodsBox_2,#goodsBox_3")'>全店通用
+                </label>
+                <label>
+                    <input type='radio' name='useObjects' class='ipt' value='1' {if $data['useObjects']==1}checked{/if} onclick='javascript:WST.showHide(1,"#goodsBox_1,#goodsBox_2,#goodsBox_3")'>指定商品
+                </label>
+            </td>
+        </tr>
+        <tr id='goodsBox_1'  {if $data['useObjects']==0}style='display:none'{/if}>
+            <th width='120'>商品分类<font color='red'>*</font>：</th>
+            <td colspan='2'>
+                <select id="cat12_0" class='pgoodsCats1_2' level="0" onchange="WST.ITGoodsCats({id:'cat12_0',val:this.value,isRequire:false,className:'pgoodsCats1_2'});">
+                    <option value=''>请选择</option>
+                    {volist name=":WSTGoodsCats(0)" id="vo"}
+                    <option value="{$vo['catId']}">{$vo['catName']}</option>
+                    {/volist}
+                </select>
+            </td>
+            <td>
+                商品分类<font color='red'>*</font>：
+                <select id="cat22_0" class='pgoodsCats2_2' level="0" onchange="WST.ITGoodsCats({id:'cat22_0',val:this.value,isRequire:false,className:'pgoodsCats2_2',afterFunc:'listQueryByGoods'});">
+                    <option value=''>所有分类</option>
+                    {volist name=":WSTGoodsCats(0)" id="vo"}
+                    <option value="{$vo['catId']}">{$vo['catName']}</option>
+                    {/volist}
+                </select>
+            </td>
+        <tr id='goodsBox_2'  {if $data['useObjects']==0}style='display:none'{/if}>
+            <th width='120'>搜索：</th>
+            <td colspan='2'>
+                <input type='text' id='key_2' style='width:250px' class='ipt_2' placeholder='店铺名、商品名称、商品编号、商品货号'/>
+                <button type="button" class="btn btn-primary" onclick='javascript:searchGoods("_2")'><i class="fa fa-search"></i>搜索</button>
+            </td>
+            <td style='padding-left:30px;'>
+                类型<font color='red'>*</font>：
+                <select id='dataType_2' onchange='listQueryBySearchGoods("_2")'>
+                    <option value='0'>推荐</option>
+                    <option value='1'>热销</option>
+                    <option value='2'>精品</option>
+                    <option value='3'>新品</option>
+                </select>
+            </td>
+        </tr>
+        <tr id='goodsBox_3'  {if $data['useObjects']==0}style='display:none'{/if}>
+            <th>请选择<font color='red'>*</font>：</th>
+            <td width='320'>
+                <div class="recom-lbox">
+                    <div class="trow head">
+                        <div class="tck"><input onclick="WST.checkChks(this,'.lchk_2')" type="checkbox"></div>
+                        <div class="ttxt">商品</div>
+                    </div>
+                    <div id="llist_2" style="width:350px;"></div>
+                </div>
+            </td>
+            <td align='center'>
+                <input type='button' value='》》' class='btn btn-primary' onclick='javascript:couponMoveRight("_2")'/>
+                <br/><br/>
+                <input type='button' value='《《' class='btn btn-primary' onclick='javascript:couponMoveLeft("_2")'/>
+                <input type='hidden' id='ids_2'/>
+            </td>
+            <td>
+                <div class="recom-rbox">
+                    <div class="trow head">
+                        <div class="tck"><input onclick="WST.checkChks(this,'.rchk_2')" type="checkbox"></div>
+                        <div class="ttxt">商品</div>
+                        <div class="top">排序</div>
+                    </div>
+                    <div id="rlist_2">
+                        {volist name="object['goods']" id='vo'}
+                            <div class='body'>
+                                <div class="trow"><div class="tck"><input type="checkbox" name="rchk_2" class="rchk_2" value="{$vo.goodsId}"></div>
+                                <div class="ttxt">{$vo.goodsName}</div>
+                            </div>
+                        {/volist}
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan='2' align='center' class='wst-bottombar'>
+                <input type="hidden" name="couponId" id="couponId" class="ipt" value="{$data['couponId']+0}" />
+                <button type="submit"  class='btn btn-primary btn-mright'><i class="fa fa-check"></i>提交</button>
+                <button type="button"  class='btn' onclick="javascript:history.go(-1)"><i class="fa fa-angle-double-left"></i>返回</button>
+            </td>
+        </tr>
+    </table>
+</form>
+<script>
+    $(function(){editInit()});
+</script>
+
+{/block}
+

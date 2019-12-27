@@ -1,0 +1,79 @@
+{extend name="base" /}
+{block name="css"}
+<link rel="stylesheet" type="text/css" href="__STATIC__/plugins/webuploader/webuploader.css?v={$v}" />
+<link href="__STATIC__/plugins/validator/jquery.validator.css?v={$v}" rel="stylesheet">
+{/block}
+{block name="js"}
+<script type='text/javascript' src='__STATIC__/plugins/webuploader/webuploader.js?v={$v}'></script>
+<script src="__ADMIN__/versionups/versionups.js" type="text/javascript"></script>
+<script src="__STATIC__/plugins/layer/laydate.js"></script>
+{/block}
+{block name="main"}
+<div class="l-loading" style="display: block" id="wst-loading"></div>
+<form id="guideForm" autocomplete="off">
+    <table class='wst-form wst-box-top'>
+        <tr>
+            <th>系统类型</th>
+            <td class='layui-form'>
+                <lable>
+                    <input type="radio" name="type" value="0" id="type" class="ipt" <?=($data['type']== 0)?'checked="checked"':'';?> title='android'/>
+                </lable>
+                <lable>
+                    <input type="radio" name="type" value="1" id="type" class="ipt" <?=($data['type']==1)?'checked="checked"':'';?> title='ios'/>
+                </lable>
+            </td>
+        </tr>
+        <tr>
+            <th>版本号<font color='red'>*</font>：</th>
+            <td>
+                <input type="text" id="versionNumber" name="versionNumber" class="ipt" value="{$data['versionNumber']}" maxLength='20'/>
+            </td>
+        </tr>
+        <tr id="uploadPacket">
+            <th width='100'>上传包：</th>
+            <td><div id='guidePicker'>上传</div><span id='uploadMsg'></span></td>
+        </tr>
+        <tr id="uploadPath">
+            <th width='100'>路径：</th>
+            <td>
+                <div style="min-height:30px;margin-top: 20px;" id="preview">
+                    {$data['path']}
+                </div>
+                <input type="hidden" name="path" id="path" value="{$data['path']}" class="ipt" />
+            </td>
+        </tr>
+        <tr>
+            <th>升级类型</th>
+            <td class='layui-form'>
+                <lable>
+                    <input type="radio" name="upgradeType" value="0" id="upgradeType" class="ipt" <?=($data['upgradeType']== 0)?'checked="checked"':'';?> title='普通'/>
+                </lable>
+                <lable>
+                    <input type="radio" name="upgradeType" value="1" id="upgradeType" class="ipt" <?=($data['upgradeType']==1)?'checked="checked"':'';?> title='强制'/>
+                </lable>
+            </td>
+        </tr>
+        <tr>
+            <th>说明<font color='red'>*</font>：</th>
+            <td>
+                <!--<input type="text" id="text" name="text" class="ipt" value="{$data['text']}" maxLength='100'/>-->
+                <textarea rows="5" cols="5" id="text" name="text" class="ipt">{$data['text']}</textarea>
+            </td>
+        </tr>
+        <tr>
+            <td colspan='2' align='center' class='wst-bottombar'>
+                <input type="hidden" name="id" id="id" class="ipt" value="{$data['id']+0}" />
+                <button type="submit"  class='btn btn-primary btn-mright'><i class="fa fa-check"></i>提交</button>
+                <button type="button"  class='btn' onclick="javascript:history.go(-1)"><i class="fa fa-angle-double-left"></i>返回</button>
+            </td>
+        </tr>
+    </table>
+</form>
+<script>
+    $(function(){
+        editInit();
+    });
+</script>
+
+{/block}
+

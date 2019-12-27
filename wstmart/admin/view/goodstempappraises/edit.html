@@ -1,0 +1,167 @@
+{extend name="base" /}
+{block name="css"}
+<link rel="stylesheet" type="text/css" href="__STATIC__/plugins/webuploader/webuploader.css?v={$v}" />
+<link href="__STATIC__/plugins/validator/jquery.validator.css?v={$v}" rel="stylesheet">
+{/block}
+{block name="js"}
+<script type='text/javascript' src='__STATIC__/plugins/webuploader/webuploader.js?v={$v}'></script>
+<script src="__ADMIN__/goodstempappraises/goodstempappraises.js" type="text/javascript"></script>
+<script src="__STATIC__/plugins/layer/laydate.js"></script>
+{/block}
+{block name="main"}
+<div class="l-loading" style="display: block" id="wst-loading"></div>
+<form id="guideForm" autocomplete="off">
+    <table class='wst-form wst-box-top'>
+        <tr>
+            <th>商品ID<font color='red'>*</font>：</th>
+            <td>
+                <input type="text" id="goodsId" name="goodsId" class="ipt" value="{$data['goodsId']}" maxLength='20'/>
+            </td>
+        </tr>
+        <tr>
+            <th>昵称<font color='red'>*</font>：</th>
+            <td>
+                <input type="text" id="nickname" name="nickname" class="ipt" value="{$data['nickname']}" maxLength='20'/>
+            </td>
+        </tr>
+        <tr>
+            <th width='100'>用户头像：</th>
+            <td><div id='guidePicker'>上传</div><span id='uploadMsg'></span></td>
+        </tr>
+        <tr>
+            <th width='100'>预览图：</th>
+            <td>
+                <div style="min-height:30px;" id="preview">
+                    <img src="__ROOT__/{$data['userPhoto']}" width="100" />
+                </div>
+                <input type="hidden" name="userPhoto" id="userPhoto" value="{$data['userPhoto']}" class="ipt" />
+            </td>
+        </tr>
+        <tr>
+            <th>评价内容<font color='red'>*</font>：</th>
+            <td>
+                <input type="text" id="content" name="content" class="ipt" value="{$data['content']}" maxLength='100'/>
+            </td>
+        </tr>
+        <tr>
+            <th>商品评分<font color='red'>*</font>：</th>
+            <td>
+                <input type="text" id="goodsScore" name="goodsScore" class="ipt" value="{$data['goodsScore']}" maxLength='10'/>
+            </td>
+        </tr>
+        <tr>
+            <th>时效评分<font color='red'>*</font>：</th>
+            <td>
+                <input type="text" id="timeScore" name="timeScore" class="ipt" value="{$data['timeScore']}" maxLength='100'/>
+            </td>
+        </tr>
+        <tr>
+            <th width='100'>评价照片一：</th>
+            <td><div id='onePicker'>上传</div><span id='uploadMsg1'></span></td>
+        </tr>
+        <tr>
+            <th width='100'>预览图：</th>
+            <td>
+                <div style="min-height:30px;" id="preview1">
+
+                </div>
+                <input type="hidden" name="images1" id="images1" value="{$data['images1']}" class="ipt" />
+            </td>
+        </tr>
+        <tr>
+            <th width='100'>评价照片二：</th>
+            <td><div id='twoPicker'>上传</div><span id='uploadMsg2'></span></td>
+        </tr>
+        <tr>
+            <th width='100'>预览图：</th>
+            <td>
+                <div style="min-height:30px;" id="preview2">
+
+                </div>
+                <input type="hidden" name="images2" id="images2" value="{$data['images2']}" class="ipt" />
+            </td>
+        </tr>
+        <tr>
+            <th width='100'>评价照片三：</th>
+            <td><div id='threePicker'>上传</div><span id='uploadMsg3'></span></td>
+        </tr>
+        <tr>
+            <th width='100'>预览图：</th>
+            <td>
+                <div style="min-height:30px;" id="preview3">
+
+                </div>
+                <input type="hidden" name="images3" id="images3" value="{$data['images3']}" class="ipt" />
+            </td>
+        </tr>
+        <tr>
+            <th width='100'>评价照片四：</th>
+            <td><div id='fourPicker'>上传</div><span id='uploadMsg4'></span></td>
+        </tr>
+        <tr>
+            <th width='100'>预览图：</th>
+            <td>
+                <div style="min-height:30px;" id="preview4">
+
+                </div>
+                <input type="hidden" name="images4" id="images4" value="{$data['images4']}" class="ipt" />
+            </td>
+        </tr>
+        <tr>
+            <th width='100'>评价照片五：</th>
+            <td><div id='fivePicker'>上传</div><span id='uploadMsg5'></span></td>
+        </tr>
+        <tr>
+            <th width='100'>预览图：</th>
+            <td>
+                <div style="min-height:30px;" id="preview5">
+
+                </div>
+                <input type="hidden" name="images5" id="images5" value="{$data['images5']}" class="ipt" />
+            </td>
+        </tr>
+        <tr>
+            <th width='100'>评价照片六：</th>
+            <td><div id='sixPicker'>上传</div><span id='uploadMsg6'></span></td>
+        </tr>
+        <tr>
+            <th width='100'>预览图：</th>
+            <td>
+                <div style="min-height:30px;" id="preview6">
+
+                </div>
+                <input type="hidden" name="images6" id="images6" value="{$data['images6']}" class="ipt" />
+            </td>
+        </tr>
+        <tr>
+            <th>评价时间<font color='red'>  </font>：</th>
+            <td class='layui-form'>
+                <input type="text" id="createTime" name="createTime" readonly class="ipt laydate-icon"  value="{$data['createTime']}" maxLength='20'/>
+            </td>
+        </tr>
+        <tr>
+            <th>是否显示：</th>
+            <td class='layui-form'>
+                <lable>
+                    <input type="radio" name="isShow" value="0" id="isShow" class="ipt" <?=($data['isShow']==0)?'checked="checked"':'';?> title='不显示'/>
+                </lable>
+                <lable>
+                    <input type="radio" name="isShow" value="1" id="isShow" class="ipt" <?=($data['isShow']!=0)?'checked="checked"':'';?> title='显示'/>
+                </lable>
+            </td>
+        </tr>
+        <tr>
+            <td colspan='2' align='center' class='wst-bottombar'>
+                <input type="hidden" name="id" id="id" class="ipt" value="{$data['id']+0}" />
+                <button type="submit"  class='btn btn-primary btn-mright'><i class="fa fa-check"></i>提交</button>
+                <button type="button"  class='btn' onclick="javascript:history.go(-1)"><i class="fa fa-angle-double-left"></i>返回</button>
+            </td>
+        </tr>
+    </table>
+</form>
+<script>
+    $(function(){editInit()});
+</script>
+
+{/block}
+

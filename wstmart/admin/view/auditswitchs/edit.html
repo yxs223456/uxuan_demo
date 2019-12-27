@@ -1,0 +1,50 @@
+{extend name="base" /}
+{block name="css"}
+<link rel="stylesheet" type="text/css" href="__STATIC__/plugins/webuploader/webuploader.css?v={$v}" />
+<link href="__STATIC__/plugins/validator/jquery.validator.css?v={$v}" rel="stylesheet">
+{/block}
+{block name="js"}
+<script type='text/javascript' src='__STATIC__/plugins/webuploader/webuploader.js?v={$v}'></script>
+<script src="__ADMIN__/auditswitchs/auditswitchs.js" type="text/javascript"></script>
+{/block}
+{block name="main"}
+<div class="l-loading" style="display: block" id="wst-loading"></div>
+<form id="guideForm" autocomplete="off">
+    <table class='wst-form wst-box-top'>
+        <tr>
+            <th>系统类型</th>
+            <td class='layui-form'>
+                {foreach :config('web.auditChannel') as $k=>$v}
+                <lable>
+                    <input type="radio" name="channel" value="{$k}" id="channel" class="ipt" <?=($data['channel']== $k)?'checked="checked"':'';?> title='{$v}'/>
+                </lable>
+                {/foreach}
+            </td>
+        </tr>
+        <tr>
+            <th>version<font color='red'>*</font>：</th>
+            <td>
+                <input type="text" id="version" name="version" class="ipt" value="{$data['version']}" maxLength='20'/>
+            </td>
+        </tr>
+        <tr>
+            <th>versionCode<font color='red'>*</font>：</th>
+            <td>
+                <input type="text" id="versionCode" name="versionCode" class="ipt" value="{$data['versionCode']}" maxLength='20'/>
+            </td>
+        </tr>
+        <tr>
+            <td colspan='2' align='center' class='wst-bottombar'>
+                <input type="hidden" name="id" id="id" class="ipt" value="{$data['id']+0}" />
+                <button type="submit"  class='btn btn-primary btn-mright'><i class="fa fa-check"></i>提交</button>
+                <button type="button"  class='btn' onclick="javascript:history.go(-1)"><i class="fa fa-angle-double-left"></i>返回</button>
+            </td>
+        </tr>
+    </table>
+</form>
+<script>
+    $(function(){editInit()});
+</script>
+
+{/block}
+

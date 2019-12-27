@@ -1,0 +1,78 @@
+{extend name="default/shops/base" /}
+{block name="title"}批量自动发货- 卖家中心{__block__}{/block}
+{block name="css"}
+{/block}
+{block name="content"}
+<div class="wst-shop-head"><span>批量自动发货</span></div>
+<div class='wst-shop-tbar'>
+    订单号：<input type='text' class="s-ipt" id='orderNo'/>
+    支付方式：<select name="payType" id="payType" class="s-ipt">
+    <option value="-1">请选择</option>
+    <option value="0">货到付款</option>
+    <option value="1">在线支付</option>
+</select>
+
+    配送方式：<select name="deliverType" id="deliverType" class="s-ipt">
+    <option value="-1">请选择</option>
+    <option value="0">送货上门</option>
+    <option value="1">自提</option>
+</select>
+
+    <a class="s-btn" onclick="deliveredByPage()">查询</a>
+    <a class="s-btn" style="float: right;line-height:16px;height:16px;margin-top:2px;" onclick="javascript:toExport(2,1,'')">导出</a>
+</div>
+<div class='wst-shop-content'>
+    <table>
+
+            <tr id="uploadPacket">
+                <th width='100'>导入excel：</th>
+                <td><input type="file" name="excel_file" id="excel_file"></td>
+            </tr>
+            <tr>
+                <button id="submitBatchDeliver">导入</button>
+            </tr>
+
+    </table>
+    <diiv id="msg">
+
+    </diiv>
+</div>
+{/block}
+{block name="js"}
+<script type='text/javascript' src='__STYLE__/shops/orders/orders.js?v={$v}'></script>
+<script>
+    $(function(){
+        //deliveredByPage();
+        $("#submitBatchDeliver").click(function(){
+            //debugger;
+            var fileObj = document.getElementById("excel_file").files[0]; // js 获取文件对象
+
+            var formFile = new FormData();
+            formFile.append("action", "UploadVMKImagePath");
+            formFile.append("file", fileObj); //加入文件对象
+            var data = formFile;
+            $.ajax({
+                url: "/home/orders/batchDeliver",
+                data: data,
+                type: "Post",
+                dataType: "json",
+                cache: false,//上传文件无需缓存
+                processData: false,//用于对data参数进行序列化处理 这里必须false
+                contentType: false, //必须
+                success: function (result) {
+                    var json =result;
+                    if(json.status==1){
+                        WST.msg('成功发货', {icon: 6},function(){
+                            location.href = '/home/orders/batchDeliverPage';
+                        });
+                    }else if(json.status==-1){
+                        WST.msg('提示:'+json.msg, {icon: 6},function(){
+                        });
+                        $("#msg").html(json.msg);
+                    }
+                },
+            })
+        })
+    })
+</script>
+{/block}

@@ -1,0 +1,130 @@
+{extend name="base" /}
+{block name="css"}
+<link rel="stylesheet" type="text/css" href="__STATIC__/plugins/webuploader/webuploader.css?v={$v}" />
+<link href="__STATIC__/plugins/validator/jquery.validator.css?v={$v}" rel="stylesheet">
+{/block}
+{block name="js"}
+<script type='text/javascript' src='__STATIC__/plugins/webuploader/webuploader.js?v={$v}'></script>
+<script src="__ADMIN__/recommends/recommends.js" type="text/javascript"></script>
+{/block}
+{block name="main"}
+<style>
+    input[type=text]{padding: 6px 5px;}
+</style>
+<form autocomplete='off'>
+    <table class='wst-form wst-box-top'>
+        <tr>
+            <th width='120'>活动类型<font color='red'>*</font>：</th>
+            <td colspan='2'>
+                <select id="type2_2" class='ipt' level="0" onchange='javascript:listQueryByGoodsActivity("_2")'>
+                    <option value="browseGoods">爱逛街</option>
+                    <option value="favoriteGoods">疯狂打CALL</option>
+                    <option value="shareBrowse">给好友种草</option>
+                    <option value="pintaunOriginator">我的团长我的团</option>
+                    <option value="noviceActivityGoods">新手礼包</option>
+                    <option value="fanli">返利</option>
+
+                </select>
+            </td>
+            <td>
+                标题<font color='red'>*</font>：
+                <input type='text' id='title_2' style='width:250px' class='ipt_2'/>
+            </td>
+        </tr>
+        <tr>
+            <th width='60'>显示banner</th>
+            <td colspan='2'>
+                <select id="bannerIsShow_2" class='ipt'>
+                    <option value="1">显示</option>
+                    <option value="0">不显示</option>
+                </select>
+            </td>
+            <td>
+                链接：
+                <input type='text' id='link_2' style='width:250px' class='ipt_2'/>
+            </td>
+        </tr>
+        <tr>
+            <th width='100'>banner图</th>
+            <td><div id='Picker'>上传</div><span id='uploadMsg'></span></td>
+        </tr>
+        <tr>
+            <th width='100'>预览图：</th>
+            <td>
+                <div style="min-height:30px;" id="preview">
+                </div>
+                <input type="hidden" id="banner_2" value="" class="ipt" />
+            </td>
+        </tr>
+        <tr>
+            <th width='120'>商品分类</th>
+            <td colspan='2'>
+                <select id="cat12_0" class='ipt pgoodsCats1_2' level="0" onchange="WST.ITGoodsCats({id:'cat12_0',val:this.value,isRequire:false,className:'pgoodsCats1_2'});">
+                    <option value=''>请选择</option>
+                    {volist name=":WSTGoodsCats(0)" id="vo"}
+                    <option value="{$vo['catId']}">{$vo['catName']}</option>
+                    {/volist}
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th width='120'>搜索：</th>
+            <td colspan='2'>
+                <input type='text' id='key_2' style='width:250px' class='ipt_2' placeholder='店铺名、商品名称、商品编号、商品货号'/>
+                <button type="button" class="btn btn-primary" onclick='javascript:loadGoodsActivity("_2")'><i class="fa fa-search"></i>搜索</button>
+            </td>
+            <td style='padding-left:30px;'>
+                类型
+                <select id='dataType_2' onchange='listQueryByGoodsActivity("_2")'>
+                    <option value='0'>推荐</option>
+                    <option value='1'>热销</option>
+                    <option value='2'>精品</option>
+                    <option value='3'>新品</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th>请选择<font color='red'>*</font>：</th>
+            <td width='320'>
+                <div class="recom-lbox">
+                    <div class="trow head">
+                        <div class="tck"><input onclick="WST.checkChks(this,'.lchk_2')" type="checkbox"></div>
+                        <div class="ttxt">商品</div>
+                    </div>
+                    <div id="llist_2" style="width:350px;"></div>
+                </div>
+            </td>
+            <td align='center'>
+                <input type='button' value='》》' class='btn btn-primary' onclick='javascript:moveRight("_2")'/>
+                <br/><br/>
+                <input type='button' value='《《' class='btn btn-primary' onclick='javascript:moveLeft("_2")'/>
+                <input type='hidden' id='ids_2'/>
+            </td>
+            <td>
+                <div class="recom-rbox">
+                    <div class="trow head">
+                        <div class="tck"><input onclick="WST.checkChks(this,'.rchk_2')" type="checkbox"></div>
+                        <div class="ttxt">商品</div>
+                        <div class="top">排序</div>
+                    </div>
+                    <div id="rlist_2"></div>
+                </div>
+            </td>
+        </tr>
+        {if WSTGrant('SPTJ_04')}
+        <tr>
+            <td colspan='4' align='center' style='padding-top:10px;'>
+                <button type="button" class="btn btn-primary" onclick='javascript:editGoodsActivity("_2")'><i class="fa fa-check"></i>保存</button>
+            </td>
+        </tr>
+        {/if}
+    </table>
+</form>
+<script>
+    $(function(){editInit()});
+    $(function(){
+        listQueryByGoodsActivity('_2');
+        $('#headTip').WSTTips({width:90,height:35,callback:function(v){}});
+    });
+</script>
+{/block}

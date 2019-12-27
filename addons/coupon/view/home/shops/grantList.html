@@ -1,0 +1,67 @@
+{extend name="$LAYOUT_HOME_SHOP_BASE" /}
+{block name="title"}优惠券 - 卖家中心{/block}
+{block name="top"}
+{include file="$LAYOUT_HOME_TOP" /}
+{/block}
+
+{block name="content"}
+<div class="wst-shop-head"><span>优惠券</span></div>
+<!--<div class="wst-shop-tbar">-->
+    <!--<label>-->
+        <!--<a class="s-btn" style="float: right;width:80px;line-height:16px;height:16px;margin-top:2px;" onclick="javascript:toEdit(0)">新增红包</a>-->
+    <!--</label>-->
+<!--</div>-->
+<div class="wst-shop-content">
+    <table class='wst-list'>
+        <thead>
+        <tr>
+            <th>面值</th>
+            <th>类型</th>
+            <th>适用对象</th>
+            <th>开始时间</th>
+            <th>结束时间</th>
+            <th>发放量</th>
+            <!--<th>领取数量</th>-->
+            <th>状态</th>
+            <th width="100">操作</th>
+        </tr>
+        </thead>
+        <tbody id='grantCouponslist'></tbody>
+        <tfoot>
+        <tr align="center"><td colspan='10' id='pager'></td></tr>
+        </tfoot>
+        <script id="couponstpl" type="text/html">
+            {{# for(var i = 0; i < d.length; i++){ }}
+            <tr>
+                <td>￥{{d[i]['couponValue']}}</td>
+                <!--<td>{{# if(d[i]['useCondition']==1){}}满{{d[i]['useMoney']}}减{{d[i]['couponValue']}}券{{# }else{ }}现金券{{#}}}</td>-->
+                <td>{{# if(d[i]['type']==0){}}领取类{{# }else if(d[i]['type']==4){ }}发放类{{#}}}</td>
+                <td>{{# if(d[i]['useObjects']==0){}}全店通用{{# }else{ }}部分商品{{#}}}</td>
+                <!--<td>{{# if(d[i]['useCondition']==1){}}满{{d[i]['useMoney']}}减{{d[i]['couponValue']}}券{{# }else{ }}满任意金额可用{{#}}}</td>-->
+                <td>{{d[i]['startDate']}}</td>
+                <td>{{d[i]['endDate']}}</td>
+                <td>{{d[i]['couponNum']}}</td>
+                <td id="grantStatus_{{d[i].couponId}}">
+                    {{# if(d[i]['stat']==0){}}已发放{{# }else{ }}还可发放{{d[i]['stat']}}人{{#}}}
+                </td>
+                <td>
+                    <a href='javascript:void(0)' onclick='grantCoupons({{d[i].couponId}})'>添加用户</a>
+                </td>
+            </tr>
+            {{# } }}
+        </script>
+    </table>
+    <div id='pager'></div>
+</div>
+{/block}
+{block name="footer"}
+{include file="$LAYOUT_HOME_FOOTER" /}
+{/block}
+{block name="js"}
+<script type="text/javascript" src="__ROOT__/addons/coupon/view/home/shops/shop.js?v={$v}"></script>
+<script type="text/javascript">
+    $(function(){
+        grantQueryByPage();
+    });
+</script>
+{/block}
