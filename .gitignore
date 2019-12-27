@@ -23,4 +23,3 @@ runtime/cache/*
 /.vscode
 *.log
 upload/*
-.env
