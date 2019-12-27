@@ -21,3 +21,4 @@ runtime/*
 /.vscode
 *.log
 upload/*
+.env
