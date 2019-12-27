@@ -20,6 +20,4 @@ runtime/*
 /.idea
 /.vscode
 *.log
-.env
-
 upload/*
