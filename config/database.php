@@ -10,7 +10,7 @@ if (getAppEnvironment() === 'production') {
         // 用户名
         'username' => 'root',
         // 密码
-        'password' => 'w8u:u0&#GlG',
+        'password' => 'tjlvorigbpzcbihb',
         // 端口
         'hostport' => '3306',
         // 连接dsn
@@ -55,7 +55,7 @@ if (getAppEnvironment() === 'production') {
         // 用户名
         'username' => 'root',
         // 密码
-        'password' => 'w8u:u0&#GlG',
+        'password' => 'tjlvorigbpzcbihb',
         // 端口
         'hostport' => '3306',
         // 连接dsn
