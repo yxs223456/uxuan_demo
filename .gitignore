@@ -16,7 +16,9 @@ composer.phar
 */logs/*php
 /webroot/node_modules
 */.htaccess
-runtime/*
+runtime/log/*
+runtime/temp/*
+runtime/cache/*
 /.idea
 /.vscode
 *.log
