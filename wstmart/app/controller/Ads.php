@@ -15,7 +15,7 @@ use wstmart\app\service\Users as ASUser;
 class Ads extends Base
 {
     protected $beforeActionList = [
-        'checkAuth' => ['except'=>'drawadsposition,drawclickrate'],
+        'checkAuth' => ['except'=>'phpinfo,drawadsposition,drawclickrate'],
     ];
     protected $openAction = [
         "phpinfo",
