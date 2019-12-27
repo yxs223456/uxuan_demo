@@ -18,9 +18,15 @@ class Ads extends Base
         'checkAuth' => ['except'=>'drawadsposition,drawclickrate'],
     ];
     protected $openAction = [
+        "phpinfo",
         'drawadsposition',
         'drawclickrate',
     ];
+
+    public function phpinfo()
+    {
+        phpinfo();
+    }
 
     public function drawAdsPosition()
     {
