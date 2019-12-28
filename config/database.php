@@ -8,9 +8,9 @@ if (getAppEnvironment() === 'production') {
         // 数据库名
         'database' => 'wstmart',
         // 用户名
-        'username' => 'root',
+        'username' => 'web',
         // 密码
-        'password' => 'yxsYXS123!',
+        'password' => 'NaqIP%dYqg1mV!9q',
         // 端口
         'hostport' => '3306',
         // 连接dsn
@@ -53,9 +53,9 @@ if (getAppEnvironment() === 'production') {
         // 数据库名
         'database' => 'wstmart',
         // 用户名
-        'username' => 'root',
+        'username' => 'web',
         // 密码
-        'password' => 'yxsYXS123!',
+        'password' => 'NaqIP%dYqg1mV!9q',
         // 端口
         'hostport' => '3306',
         // 连接dsn
