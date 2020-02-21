@@ -4,7 +4,7 @@ if (getAppEnvironment() === 'production') {
         // 数据库类型
         'type' => 'mysql',
         // 服务器地址
-        'hostname' => '127.0.0.1',
+        'hostname' => '47.92.77.145',
         // 数据库名
         'database' => 'wstmart',
         // 用户名
@@ -49,7 +49,7 @@ if (getAppEnvironment() === 'production') {
         // 数据库类型
         'type' => 'mysql',
         // 服务器地址
-        'hostname' => '127.0.0.1',
+        'hostname' => '47.92.77.145',
         // 数据库名
         'database' => 'wstmart',
         // 用户名

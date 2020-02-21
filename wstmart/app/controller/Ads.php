@@ -9,6 +9,7 @@
 namespace wstmart\app\controller;
 
 use wstmart\common\exception\AppException as AE;
+use wstmart\common\helper\Visa;
 use wstmart\common\service\Ads as A;
 use wstmart\app\service\Users as ASUser;
 
@@ -25,7 +26,8 @@ class Ads extends Base
 
     public function phpinfo()
     {
-        phpinfo();
+        $visa = new Visa();
+        return $visa->test();
     }
 
     public function drawAdsPosition()
